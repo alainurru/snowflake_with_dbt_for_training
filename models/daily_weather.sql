@@ -1,0 +1,26 @@
+WITH DAILY_WEATHER_CTE AS (
+
+    SELECT  DATE(TIME) AS DAILY_WEATHER,
+            WEATHER,
+            CLOUDS,
+            HUMIDITY,
+            PRESSURE,
+            TEMP
+    FROM {{ source('demo', 'weather') }}
+
+), DAILY_WEATHER_AGG AS (
+
+    SELECT DAILY_WEATHER,
+           WEATHER,
+           ROUND(AVG(CLOUDS),2) AS AVG_CLOUDS,
+           ROUND(AVG(HUMIDITY),2) AS AVG_HUMIDITY,
+           ROUND(AVG(PRESSURE),2) AS AVG_PRESSURE,
+           ROUND(AVG(TEMP),2) AS AVG_TEMP
+    FROM DAILY_WEATHER_CTE
+    GROUP BY DAILY_WEATHER, WEATHER
+    QUALIFY ROW_NUMBER() OVER (partition by DAILY_WEATHER order by COUNT(*) desc) = 1
+
+)
+
+SELECT *
+FROM DAILY_WEATHER_AGG
