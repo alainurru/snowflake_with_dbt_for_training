@@ -1,9 +1,9 @@
 {% macro generate_schema_name(custom_schema_name, node) %}
 
-    {% if target.name == 'PROD' %}
+    {% if target.schema == 'PROD' %}
         {{ custom_schema_name }}
     {% else %}
-        {{ target.schema }}_{{ custom_schema_name }}
+        {{ target.name }}_{{ custom_schema_name }}
     {% endif %}
 
 {% endmacro %}
