@@ -39,4 +39,8 @@ models:
   my_new_project:
     # Applies to all files under models/example/
     example:
+      +schema: example
+      +materialized: table
+    final:
+      +schema: final
       +materialized: table
