@@ -41,6 +41,9 @@ models:
     example:
       +schema: example
       +materialized: table
+    intermediate:
+      +schema: intermediate
+      +materialized: table
     final:
       +schema: final
       +materialized: table
